@@ -10,6 +10,7 @@ import {
 const API_BASE = 'https://app.ecwid.com/api/v3';
 const STORAGE_PREFIX = 'lvgp-ecwid-dashboard';
 const PREVIEW_CONTEXT_STORAGE_KEY = `${STORAGE_PREFIX}:preview-context`;
+const PUBLIC_PREVIEW_STORE_ID = `${STORAGE_PREFIX}:public-preview`;
 
 const state = {
   app: null,
@@ -136,13 +137,29 @@ async function initializeContext() {
   }
 
   if (!state.storeId || !state.accessToken) {
-    throw new Error('Ecwid app context is missing. Open this page inside the Ecwid app iframe or set a temporary preview context in sessionStorage for local testing.');
+    initializePublicPreviewContext();
+    return;
   }
 
   state.preferences = loadPreferences(state.storeId);
   populatePreferencesForm(state.preferences);
   updatePreviewUi();
   scheduleAutoRefresh();
+}
+
+function initializePublicPreviewContext() {
+  state.storeId = PUBLIC_PREVIEW_STORE_ID;
+  state.accessToken = '';
+  state.locale = normalizeLocale(navigator.language || 'en-US');
+  state.preferences = {
+    ...loadPreferences(state.storeId),
+    previewModeEnabled: true,
+  };
+
+  populatePreferencesForm(state.preferences);
+  updatePreviewUi();
+  scheduleAutoRefresh();
+  showStatus('Public preview mode is active. Open this app inside Ecwid admin for live store data.', 'success');
 }
 
 async function refreshDashboard(showToast) {

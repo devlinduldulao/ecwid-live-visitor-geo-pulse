@@ -42,6 +42,18 @@ test('renders live dashboard from query-param fallback context when Ecwid iframe
   await expect(page.locator('#recent-orders')).toContainText('#9101');
 });
 
+test('opens the public Pages URL in preview mode when Ecwid context is unavailable', async ({ page }) => {
+  await mockEcwidSdkFailure(page);
+
+  await page.goto('/index.html?cachebust=e2e-public-preview');
+
+  await expect(page).toHaveTitle(/Preview Mercantile/);
+  await expect(page.locator('#preview-badge')).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Disable Preview Data' })).toBeVisible();
+  await expect(page.locator('#metric-orders-24h')).toHaveText('3');
+  await expect(page.locator('#status-banner')).toContainText('Public preview mode is active. Open this app inside Ecwid admin for live store data.');
+});
+
 test('renders empty live-data states when Ecwid returns no orders or products', async ({ page }) => {
   await mockEcwidApp(page, {
     store_id: 'store-empty',
