@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="ecwid-app-id" content="custom-app-132959256-1">
+  <title>Live Visitor Geo Pulse for Ecwid</title>
+  <link rel="stylesheet" href="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/css/1.3.20/ecwid-app-ui.css">
+  <link rel="stylesheet" href="./app.css?v=2">
+  <script src="https://djqizrxa6f10j.cloudfront.net/ecwid-sdk/js/1.2.9/ecwid-app.js"></script>
+</head>
+<body>
+  <div class="pulse-shell">
+    <header class="pulse-hero">
+      <div>
+        <p class="pulse-eyebrow">Ecwid Owner Dashboard</p>
+        <h1>Live Visitor Geo Pulse</h1>
+        <p class="pulse-lead">
+          Business-first pulse for Ecwid owners. No storefront widget, no visitor tracking badge,
+          no database, and no always-on server.
+        </p>
+      </div>
+      <div class="pulse-hero__meta">
+        <div class="pulse-chip">
+          <span class="pulse-chip__label">Mode</span>
+          <strong>Admin only</strong>
+        </div>
+        <div class="pulse-chip">
+          <span class="pulse-chip__label">Storage</span>
+          <strong>Browser-local preferences</strong>
+        </div>
+      </div>
+    </header>
+
+    <div id="status-banner" class="pulse-status" hidden></div>
+
+    <section class="pulse-grid pulse-grid--overview" aria-label="Overview metrics">
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Orders Last 24 Hours</span>
+        <strong id="metric-orders-24h" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Recent completed and in-flight orders.</span>
+      </article>
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Revenue Last 7 Days</span>
+        <strong id="metric-revenue-7d" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Based on the fetched order sample.</span>
+      </article>
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Countries In Pulse Window</span>
+        <strong id="metric-countries" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Order geography, not visitor IP tracking.</span>
+      </article>
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Low Stock Products</span>
+        <strong id="metric-low-stock" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Uses your browser-local threshold.</span>
+      </article>
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Active Products</span>
+        <strong id="metric-active-products" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Enabled catalog items in the fetched sample.</span>
+      </article>
+      <article class="pulse-card pulse-metric">
+        <span class="pulse-metric__label">Awaiting Fulfillment</span>
+        <strong id="metric-awaiting-fulfillment" class="pulse-metric__value">--</strong>
+        <span class="pulse-metric__hint">Orders still open for operational follow-up.</span>
+      </article>
+    </section>
+
+    <section class="pulse-grid pulse-grid--main">
+      <article class="pulse-card">
+        <div class="pulse-card__header">
+          <div>
+            <p class="pulse-section-kicker">Geo Pulse</p>
+            <h2>Top Order Countries</h2>
+          </div>
+          <p id="geo-window-copy" class="pulse-card__note">Using the last 30 days.</p>
+        </div>
+        <div id="country-breakdown" class="pulse-list pulse-list--countries"></div>
+      </article>
+
+      <article class="pulse-card">
+        <div class="pulse-card__header">
+          <div>
+            <p class="pulse-section-kicker">Fresh Activity</p>
+            <h2>Recent Orders</h2>
+          </div>
+          <p id="last-refresh-copy" class="pulse-card__note">Waiting for first sync.</p>
+        </div>
+        <div id="recent-orders" class="pulse-list"></div>
+      </article>
+    </section>
+
+    <section class="pulse-grid pulse-grid--secondary">
+      <article class="pulse-card">
+        <div class="pulse-card__header">
+          <div>
+            <p class="pulse-section-kicker">Catalog Watch</p>
+            <h2>Low Stock Focus</h2>
+          </div>
+          <p class="pulse-card__note">Unlimited stock items are excluded.</p>
+        </div>
+        <div id="low-stock-list" class="pulse-list"></div>
+      </article>
+
+      <article class="pulse-card">
+        <div class="pulse-card__header">
+          <div>
+            <p class="pulse-section-kicker">Dashboard Controls</p>
+            <h2>Local Preferences</h2>
+          </div>
+          <div class="pulse-preview-meta">
+            <span id="preview-badge" class="pulse-preview-badge" hidden>Preview Active</span>
+            <p class="pulse-card__note">Saved only in this browser for this store.</p>
+          </div>
+        </div>
+
+        <div class="pulse-preview-panel">
+          <div>
+            <p class="pulse-section-kicker">Preview Mode</p>
+            <p class="pulse-preview-copy">
+              Simulate the dashboard with sample data for demos, screenshots, and merchant onboarding.
+              Preview metrics are intentionally fake and never written back to Ecwid.
+            </p>
+          </div>
+          <button id="preview-toggle" type="button" class="btn btn-medium btn-secondary">Enable Preview Data</button>
+        </div>
+
+        <form id="preferences-form" class="pulse-form">
+          <label class="pulse-field">
+            <span>Geo pulse window in days</span>
+            <input id="lookback-days" type="number" min="7" max="90" step="1">
+          </label>
+          <label class="pulse-field">
+            <span>Low stock threshold</span>
+            <input id="low-stock-threshold" type="number" min="0" max="1000" step="1">
+          </label>
+          <label class="pulse-field">
+            <span>Auto-refresh interval in seconds</span>
+            <input id="refresh-interval" type="number" min="30" max="900" step="15">
+          </label>
+          <label class="pulse-checkbox">
+            <input id="auto-refresh-enabled" type="checkbox">
+            <span>Refresh this dashboard automatically</span>
+          </label>
+
+          <div class="pulse-actions">
+            <button id="save-preferences" type="submit" class="btn btn-medium btn-primary">Save Preferences</button>
+            <button id="refresh-now" type="button" class="btn btn-medium btn-secondary">Refresh Now</button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <section class="pulse-grid pulse-grid--footer">
+      <article class="pulse-card pulse-card--compact">
+        <p class="pulse-section-kicker">Architecture</p>
+        <h2>No extra infrastructure</h2>
+        <p>
+          This Ecwid version is a static admin app. It reads live store data from the Ecwid API
+          in the owner dashboard and does not run a Node.js service, Redis cache, or custom database.
+        </p>
+      </article>
+      <article class="pulse-card pulse-card--compact">
+        <p class="pulse-section-kicker">Scope</p>
+        <h2>For the business owner</h2>
+        <p>
+          This surface is intentionally admin-first. It does not inject a storefront widget or expose
+          visitor-facing UI.
+        </p>
+      </article>
+    </section>
+  </div>
+
+  <script type="module" src="./app.js?v=2"></script>
+</body>
+</html>

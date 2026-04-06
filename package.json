@@ -1,0 +1,34 @@
+{
+  "name": "live-visitor-geo-pulse-ecwid",
+  "version": "1.0.0",
+  "description": "Static admin-only Ecwid dashboard for Live Visitor Geo Pulse with no database, backend server, or Redis.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "capture:marketplace": "node scripts/capture-marketplace-screenshots.mjs",
+    "export:assets": "node scripts/export-assets.mjs",
+    "prepare:publish": "npm run lint && npm run test:all && npm run build && npm run export:assets && npm run capture:marketplace",
+    "serve": "python3 -m http.server 5001 -d public",
+    "lint": "node --check public/app.js && node --check public/dashboard-metrics.js && node --check tests/dashboard-metrics.test.js && node --check tests/e2e/dashboard.spec.js && node --check scripts/export-assets.mjs && node --check scripts/capture-marketplace-screenshots.mjs && node --check playwright.config.js",
+    "test": "npm run test:unit",
+    "test:all": "npm run test:unit && npm run test:e2e",
+    "test:e2e": "playwright test",
+    "test:unit": "node tests/dashboard-metrics.test.js"
+  },
+  "keywords": [
+    "ecwid",
+    "lightspeed",
+    "dashboard",
+    "analytics",
+    "static"
+  ],
+  "author": "Dev Lin Duldulao",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "sharp": "^0.34.5"
+  }
+}
