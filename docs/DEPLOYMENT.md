@@ -29,6 +29,30 @@ Any static host is fine. Examples:
 
 This repository now includes a GitHub Actions workflow that can deploy `dist/` to GitHub Pages automatically.
 
+## GitHub Pages Deployment
+
+This repository already contains `.github/workflows/deploy-pages.yml` for free GitHub Pages hosting.
+
+1. Push the repository to GitHub.
+2. In GitHub, open `Settings > Pages`.
+3. Under `Build and deployment`, set `Source` to `GitHub Actions`.
+4. Push to `main`, or run the `Deploy GitHub Pages` workflow manually from the `Actions` tab.
+5. Wait for the workflow to finish, then open the published Pages URL.
+
+If the repository is published as a project site, the URL format is:
+
+```text
+https://<github-username>.github.io/<repository-name>/
+```
+
+For the repository URL the app should be deployed from, that becomes:
+
+```text
+https://devlinduldulao.github.io/ecwid-checkout-geo-flash/
+```
+
+The workflow now validates the app before deployment and writes a `.nojekyll` marker into `dist/` so GitHub Pages serves the static artifact exactly as built.
+
 ## Deploy The App Files
 
 Create a deployment build first:

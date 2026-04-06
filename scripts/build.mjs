@@ -12,13 +12,14 @@ await rm(distDirectory, { recursive: true, force: true });
 await mkdir(distDirectory, { recursive: true });
 await cp(publicDirectory, distDirectory, { recursive: true });
 await copyOptionalFile('_headers');
+await writeFile(path.join(distDirectory, '.nojekyll'), '', 'utf8');
 
 const manifest = {
   name: 'live-visitor-geo-pulse-ecwid',
   version: '1.0.0',
   generatedAt: new Date().toISOString(),
   output: 'dist',
-  files: ['index.html', 'app.css', 'app.js', 'dashboard-metrics.js', '_headers'],
+  files: ['index.html', 'app.css', 'app.js', 'dashboard-metrics.js', '_headers', '.nojekyll'],
 };
 
 await writeFile(
