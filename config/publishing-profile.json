@@ -1,0 +1,41 @@
+{
+  "appName": "Live Visitor Geo Pulse for Ecwid",
+  "tagline": "Merchant-facing operational pulse dashboard for Ecwid store owners.",
+  "shortDescription": "Admin-only Ecwid dashboard for recent orders, revenue pulse, order geography, low-stock focus, and preview mode without a production database or long-running backend.",
+  "category": "Store management / analytics / merchant tools",
+  "hostBaseUrl": "https://devlinduldulao.github.io/ecwid-live-visitor-geo-pulse",
+  "businessName": "Configured marketplace publisher",
+  "supportEmail": "",
+  "supportResponseWindow": "Reply within 2 business days",
+  "supportTimezone": "UTC",
+  "supportUrl": "/public/support.html",
+  "privacyPolicyUrl": "/public/privacy.html",
+  "termsOfServiceUrl": "/public/terms.html",
+  "demoUrl": "/public/index.html",
+  "legalEffectiveDate": "2026-04-06",
+  "privacyContactBlurb": "Contact the support channel listed in the live marketplace listing for privacy requests.",
+  "termsWarrantyBlurb": "This app is provided as described in the active marketplace listing and any separate merchant agreement published with the app.",
+  "screenshots": [
+    "assets/marketplace/screenshot-01-overview-1024x538.png",
+    "assets/marketplace/screenshot-02-country-breakdown-1024x538.png",
+    "assets/marketplace/screenshot-03-low-stock-1024x538.png",
+    "assets/marketplace/screenshot-04-preferences-1024x538.png",
+    "assets/marketplace/screenshot-05-preview-mode-1024x538.png"
+  ],
+  "assets": {
+    "iconSource": "assets/marketplace/app-icon.svg",
+    "iconPng512": "assets/marketplace/app-icon-512.png",
+    "iconPng256": "assets/marketplace/app-icon-256.png",
+    "listingBannerSource": "assets/marketplace/listing-banner.svg",
+    "listingBannerPng1600x900": "assets/marketplace/listing-banner-1600x900.png",
+    "listingBannerPng1200x675": "assets/marketplace/listing-banner-1200x675.png"
+  },
+  "technicalNotes": {
+    "hosting": "Static HTTPS hosting",
+    "backendRequired": false,
+    "databaseRequired": false,
+    "redisRequired": false,
+    "primarySurface": "Merchant dashboard",
+    "storefrontBehavior": "Admin-only. Does not inject a storefront widget or expose visitor-facing UI."
+  }
+}
