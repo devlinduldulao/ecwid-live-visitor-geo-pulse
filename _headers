@@ -1,3 +1,7 @@
+# NOTE: This _headers file is for Netlify/Cloudflare Pages deployments.
+# GitHub Pages IGNORES this file entirely.
+# For GitHub Pages, security headers are applied via <meta> tags in each HTML file.
+# The _headers file is kept for compatibility if the hosting platform changes.
 /*
   Referrer-Policy: no-referrer
   X-Content-Type-Options: nosniff
