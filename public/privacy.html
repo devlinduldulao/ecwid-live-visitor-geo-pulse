@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Live Visitor Geo Pulse for Ecwid</title>
+  <style>
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #151718; background: #f4f5f6; }
+    .container { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+    h1 { font-size: 2rem; margin-bottom: 8px; }
+    .effective { color: #5e6163; margin-bottom: 32px; }
+    h2 { font-size: 1.25rem; margin-top: 32px; }
+    ul { padding-left: 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Privacy Policy</h1>
+    <p class="effective">Effective date: April 6, 2026</p>
+
+    <h2>1. What This App Does</h2>
+    <p>
+      Live Visitor Geo Pulse for Ecwid is a static, admin-only dashboard that displays
+      aggregated order and product metrics to the authenticated store owner inside the
+      Ecwid admin panel.
+    </p>
+
+    <h2>2. Data We Collect</h2>
+    <p>This app does <strong>not</strong> collect, store, or transmit personal data to any external service.</p>
+    <ul>
+      <li><strong>No server-side storage:</strong> The app has no database, backend server, or persistent data store.</li>
+      <li><strong>No visitor tracking:</strong> The app does not inject storefront scripts, pixels, cookies, or fingerprinting code.</li>
+      <li><strong>No third-party analytics:</strong> The app does not use Google Analytics, Mixpanel, Segment, or any tracking SDK.</li>
+    </ul>
+
+    <h2>3. Data Accessed via the Ecwid API</h2>
+    <p>
+      When opened inside the Ecwid admin iframe, the app reads the following from the
+      Ecwid REST API v3 using the token provided by the admin panel:
+    </p>
+    <ul>
+      <li>Store profile (store name, currency)</li>
+      <li>Recent orders (order number, total, country, fulfillment status, customer name)</li>
+      <li>Product catalog (name, SKU, stock quantity, enabled status)</li>
+    </ul>
+    <p>
+      This data is fetched in real time, rendered in the browser, and <strong>never</strong>
+      sent to any server controlled by the app developer. It stays entirely within the
+      store owner's browser session.
+    </p>
+
+    <h2>4. Browser-Local Preferences</h2>
+    <p>
+      Dashboard preferences (lookback window, low-stock threshold, auto-refresh interval)
+      are stored in <code>localStorage</code> in the owner's browser, namespaced by store ID.
+      These preferences never leave the browser.
+    </p>
+
+    <h2>5. Cookies</h2>
+    <p>This app does not set any cookies.</p>
+
+    <h2>6. Data Sharing</h2>
+    <p>This app does not share any data with third parties.</p>
+
+    <h2>7. Data Retention</h2>
+    <p>
+      No data is retained on any server. Browser-local preferences persist until the
+      user clears their browser storage or uninstalls the app.
+    </p>
+
+    <h2>8. Your Rights</h2>
+    <p>
+      Since no personal data is collected or stored by this app, there is no data to
+      access, correct, or delete. If you have questions, contact the support channel
+      listed in the marketplace listing.
+    </p>
+
+    <h2>9. Changes to This Policy</h2>
+    <p>
+      If this policy is updated, the effective date above will be revised. Continued use
+      of the app after changes constitutes acceptance of the updated policy.
+    </p>
+
+    <h2>10. Contact</h2>
+    <p>
+      For privacy-related inquiries, use the support contact listed on the app's
+      marketplace listing page.
+    </p>
+  </div>
+</body>
+</html>
