@@ -165,6 +165,73 @@ test('disabling preview clears simulated metrics when live Ecwid data is unavail
   await expect(page.locator('#status-banner')).toContainText('Preview data disabled. Live Ecwid data is currently unavailable.');
 });
 
+test('exposes a main landmark and accessible contrast for badge and primary action', async ({ page }) => {
+  await mockEcwidSdkFailure(page);
+  await page.route('https://app.ecwid.com/api/v3/**', async (route) => {
+    await route.abort('failed');
+  });
+
+  await setPreviewContext(page, {
+    storeId: 'preview-store',
+    accessToken: 'preview-token',
+  });
+
+  await page.goto('/index.html?cachebust=e2e-a11y');
+  await page.getByRole('button', { name: 'Enable Preview Data' }).click();
+
+  await expect(page.getByRole('main')).toBeVisible();
+  await expect(page.locator('#preview-badge')).toBeVisible();
+
+  const contrastChecks = await page.evaluate(() => {
+    function parseColor(color) {
+      const match = color.match(/rgba?\(([^)]+)\)/i);
+      if (!match) {
+        throw new Error(`Unsupported color format: ${color}`);
+      }
+
+      const [red, green, blue] = match[1].split(',').slice(0, 3).map((value) => Number.parseFloat(value.trim()));
+      return [red, green, blue];
+    }
+
+    function toLinear(channel) {
+      const normalized = channel / 255;
+      return normalized <= 0.03928
+        ? normalized / 12.92
+        : ((normalized + 0.055) / 1.055) ** 2.4;
+    }
+
+    function luminance(color) {
+      const [red, green, blue] = parseColor(color).map(toLinear);
+      return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+    }
+
+    function contrastRatio(foreground, background) {
+      const lighter = Math.max(luminance(foreground), luminance(background));
+      const darker = Math.min(luminance(foreground), luminance(background));
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    function inspect(selector) {
+      const element = document.querySelector(selector);
+      if (!element) {
+        throw new Error(`Missing element for selector: ${selector}`);
+      }
+
+      const styles = window.getComputedStyle(element);
+      return {
+        selector,
+        ratio: contrastRatio(styles.color, styles.backgroundColor),
+      };
+    }
+
+    return [inspect('#preview-badge'), inspect('#save-preferences')];
+  });
+
+  for (const check of contrastChecks) {
+    expect(check.ratio, `${check.selector} contrast ratio`).toBeGreaterThanOrEqual(4.5);
+  }
+});
+
 async function mockEcwidSdkFailure(page) {
   await page.route('**/ecwid-sdk/js/**/ecwid-app.js', async (route) => {
     await route.fulfill({

@@ -9,6 +9,8 @@
   --ls-line: #e0e2e5;
   --ls-fire-red: #da251d;
   --ls-fire-red-hover: #b91f18;
+  --ls-fire-red-deep: #8f1914;
+  --ls-fire-red-deep-hover: #76130f;
   --ls-light-red: #fdeae9;
   --ls-light-accent: #fff4ef;
   --ls-success: #1d7b4b;
@@ -231,9 +233,9 @@ body {
   align-items: center;
   padding: 6px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(218, 37, 29, 0.18);
-  background: var(--ls-light-red);
-  color: var(--ls-fire-red);
+  border: 1px solid var(--ls-fire-red-deep);
+  background: var(--ls-fire-red-deep);
+  color: var(--ls-white);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -438,14 +440,29 @@ body {
 }
 
 .btn-primary {
-  background: var(--ls-light-red);
-  color: var(--ls-fire-red);
-  border: 1px solid rgba(218, 37, 29, 0.18);
+  background: var(--ls-fire-red-deep);
+  color: var(--ls-white);
+  border: 1px solid var(--ls-fire-red-deep);
 }
 
 .btn-primary:hover {
-  background: #f9dfdd;
+  background: var(--ls-fire-red-deep-hover);
   transform: translateY(-1px);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.pulse-field input:focus-visible,
+.pulse-checkbox:focus-within {
+  outline: 3px solid rgba(21, 23, 24, 0.2);
+  outline-offset: 3px;
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-secondary {
