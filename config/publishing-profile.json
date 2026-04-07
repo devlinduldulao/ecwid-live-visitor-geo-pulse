@@ -4,8 +4,8 @@
   "shortDescription": "Admin-only Ecwid dashboard for recent orders, revenue pulse, order geography, low-stock focus, and preview mode without a production database or long-running backend.",
   "category": "Store management / analytics / merchant tools",
   "hostBaseUrl": "https://devlinduldulao.github.io/ecwid-live-visitor-geo-pulse",
-  "businessName": "Configured marketplace publisher",
-  "supportEmail": "",
+  "businessName": "devlinduldulao",
+  "supportEmail": "devlinduldulao@gmail.com",
   "supportResponseWindow": "Reply within 2 business days",
   "supportTimezone": "UTC",
   "supportUrl": "/public/support.html",
@@ -28,7 +28,8 @@
     "iconPng256": "assets/marketplace/app-icon-256.png",
     "listingBannerSource": "assets/marketplace/listing-banner.svg",
     "listingBannerPng1600x900": "assets/marketplace/listing-banner-1600x900.png",
-    "listingBannerPng1200x675": "assets/marketplace/listing-banner-1200x675.png"
+    "listingBannerPng1200x675": "assets/marketplace/listing-banner-1200x675.png",
+    "listingBannerPng1024x538": "assets/marketplace/listing-banner-1024x538.png"
   },
   "technicalNotes": {
     "hosting": "Static HTTPS hosting",
