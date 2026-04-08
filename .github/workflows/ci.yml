@@ -40,7 +40,7 @@ jobs:
 
       - name: Upload dist artifact
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
@@ -48,7 +48,7 @@ jobs:
 
       - name: Upload marketplace assets artifact
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: marketplace-assets
           path: assets/marketplace
