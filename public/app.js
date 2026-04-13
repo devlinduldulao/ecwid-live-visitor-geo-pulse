@@ -11,6 +11,7 @@ const API_BASE = 'https://app.ecwid.com/api/v3';
 const STORAGE_PREFIX = 'lvgp-ecwid-dashboard';
 const PREVIEW_CONTEXT_STORAGE_KEY = `${STORAGE_PREFIX}:preview-context`;
 const PUBLIC_PREVIEW_STORE_ID = `${STORAGE_PREFIX}:public-preview`;
+const GUIDE_DISMISSED_KEY = `${STORAGE_PREFIX}:guide-dismissed`;
 
 const state = {
   app: null,
@@ -24,6 +25,13 @@ const state = {
 
 const elements = {
   statusBanner: document.getElementById('status-banner'),
+  dataSourceBanner: document.getElementById('data-source-banner'),
+  dataSourceTitle: document.getElementById('data-source-title'),
+  dataSourceDetail: document.getElementById('data-source-detail'),
+  helpToggle: document.getElementById('help-toggle'),
+  gettingStartedGuide: document.getElementById('getting-started-guide'),
+  guideDismiss: document.getElementById('guide-dismiss'),
+  guideGotIt: document.getElementById('guide-got-it'),
   geoWindowCopy: document.getElementById('geo-window-copy'),
   lastRefreshCopy: document.getElementById('last-refresh-copy'),
   metricOrders24h: document.getElementById('metric-orders-24h'),
@@ -72,6 +80,26 @@ function bindEvents() {
     refreshDashboard(true).catch((error) => {
       showStatus(error.message || 'Failed to refresh the dashboard.', 'error');
     });
+  });
+
+  elements.helpToggle.addEventListener('click', () => {
+    const isHidden = elements.gettingStartedGuide.hidden;
+    elements.gettingStartedGuide.hidden = !isHidden;
+    elements.helpToggle.setAttribute('aria-expanded', String(isHidden));
+    resizeIframe();
+  });
+
+  elements.guideDismiss.addEventListener('click', () => {
+    elements.gettingStartedGuide.hidden = true;
+    elements.helpToggle.setAttribute('aria-expanded', 'false');
+    resizeIframe();
+  });
+
+  elements.guideGotIt.addEventListener('click', () => {
+    elements.gettingStartedGuide.hidden = true;
+    elements.helpToggle.setAttribute('aria-expanded', 'false');
+    try { window.localStorage.setItem(GUIDE_DISMISSED_KEY, 'true'); } catch { /* noop */ }
+    resizeIframe();
   });
 
   elements.previewToggle.addEventListener('click', async () => {
@@ -144,6 +172,8 @@ async function initializeContext() {
   state.preferences = loadPreferences(state.storeId);
   populatePreferencesForm(state.preferences);
   updatePreviewUi();
+  updateDataSourceBanner();
+  showGuideIfFirstVisit();
   scheduleAutoRefresh();
 }
 
@@ -158,6 +188,8 @@ function initializePublicPreviewContext() {
 
   populatePreferencesForm(state.preferences);
   updatePreviewUi();
+  updateDataSourceBanner();
+  showGuideIfFirstVisit();
   scheduleAutoRefresh();
   showStatus('Public preview mode is active. Open this app inside Ecwid admin for live store data.', 'success');
 }
@@ -261,6 +293,7 @@ function renderSnapshot(snapshot, options = {}) {
   const isPreview = options.isPreview === true;
 
   document.title = `${snapshot.meta.storeName} - Live Visitor Geo Pulse`;
+  document.getElementById('main-content').dataset.preview = String(isPreview);
 
   elements.metricOrders24h.textContent = String(snapshot.overview.orders24h);
   elements.metricRevenue7d.textContent = formatCurrencyAmount(snapshot.overview.revenue7d, snapshot.meta.currency, state.locale);
@@ -374,6 +407,7 @@ function renderLoadingState() {
 
 function renderLiveUnavailableState() {
   document.title = 'Live Visitor Geo Pulse';
+  document.getElementById('main-content').dataset.preview = 'false';
 
   elements.metricOrders24h.textContent = '--';
   elements.metricRevenue7d.textContent = '--';
@@ -438,6 +472,38 @@ function updatePreviewUi() {
 
   elements.previewBadge.hidden = !isPreview;
   elements.previewToggle.textContent = isPreview ? 'Disable Preview Data' : 'Enable Preview Data';
+  updateDataSourceBanner();
+}
+
+function updateDataSourceBanner() {
+  const isPublicPreview = state.storeId === PUBLIC_PREVIEW_STORE_ID;
+  const isPreview = state.preferences.previewModeEnabled === true;
+
+  if (isPublicPreview) {
+    elements.dataSourceBanner.dataset.mode = 'public-preview';
+    elements.dataSourceTitle.textContent = 'Sample Data — Not Connected to a Store';
+    elements.dataSourceDetail.textContent = 'Open this app inside your Ecwid admin panel (Apps → Live Visitor Geo Pulse) to see your real store metrics.';
+  } else if (isPreview) {
+    elements.dataSourceBanner.dataset.mode = 'preview';
+    elements.dataSourceTitle.textContent = 'Preview Mode — Showing Sample Data';
+    elements.dataSourceDetail.textContent = 'These metrics are simulated for demonstration. Disable preview in Dashboard Controls below to see your real store data.';
+  } else {
+    elements.dataSourceBanner.dataset.mode = 'live';
+    elements.dataSourceTitle.textContent = 'Live Data — Connected to Your Ecwid Store';
+    elements.dataSourceDetail.textContent = 'All metrics below are sourced directly from your store\'s real orders and products.';
+  }
+}
+
+function showGuideIfFirstVisit() {
+  try {
+    if (window.localStorage.getItem(GUIDE_DISMISSED_KEY) === 'true') {
+      return;
+    }
+  } catch { /* noop */ }
+
+  elements.gettingStartedGuide.hidden = false;
+  elements.helpToggle.setAttribute('aria-expanded', 'true');
+  resizeIframe();
 }
 
 function readPreferencesFromForm() {

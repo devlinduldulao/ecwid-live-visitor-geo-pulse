@@ -37,6 +37,58 @@
 
     <div id="status-banner" class="pulse-status" role="alert" aria-live="polite" hidden></div>
 
+    <div id="data-source-banner" class="pulse-data-source" role="status" aria-live="polite">
+      <div class="pulse-data-source__content">
+        <span class="pulse-data-source__icon" aria-hidden="true"></span>
+        <div class="pulse-data-source__text">
+          <strong id="data-source-title">Connecting…</strong>
+          <span id="data-source-detail">Waiting for store data.</span>
+        </div>
+      </div>
+      <button id="help-toggle" type="button" class="btn btn-small btn-ghost" aria-expanded="false" aria-controls="getting-started-guide">How to Use This App</button>
+    </div>
+
+    <section id="getting-started-guide" class="pulse-guide" hidden>
+      <div class="pulse-guide__header">
+        <h2>Getting Started</h2>
+        <button id="guide-dismiss" type="button" class="btn btn-small btn-ghost" aria-label="Dismiss guide">&times;</button>
+      </div>
+      <div class="pulse-guide__steps">
+        <div class="pulse-guide__step">
+          <span class="pulse-guide__step-number">1</span>
+          <div>
+            <strong>Install the app</strong>
+            <p>Add Live Visitor Geo Pulse from the Ecwid App Market to your store.</p>
+          </div>
+        </div>
+        <div class="pulse-guide__step">
+          <span class="pulse-guide__step-number">2</span>
+          <div>
+            <strong>Open from your Ecwid admin</strong>
+            <p>Go to your Ecwid admin panel → Apps → Live Visitor Geo Pulse. The dashboard loads inside the admin iframe automatically.</p>
+          </div>
+        </div>
+        <div class="pulse-guide__step">
+          <span class="pulse-guide__step-number">3</span>
+          <div>
+            <strong>View your real store data</strong>
+            <p>Once open inside Ecwid admin, the dashboard fetches your real orders, products, and geographic data. No setup needed — it just works.</p>
+          </div>
+        </div>
+        <div class="pulse-guide__step">
+          <span class="pulse-guide__step-number">?</span>
+          <div>
+            <strong>Seeing "Preview Mercantile"?</strong>
+            <p>That means you're viewing sample data for demonstration. Open this app inside your Ecwid admin to see your real store metrics. Preview data is clearly marked and never mixed with real data.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pulse-guide__footer">
+        <button id="guide-got-it" type="button" class="btn btn-medium btn-primary">Got It — Don't Show Again</button>
+        <span class="pulse-guide__note">You can always reopen this guide using the "How to Use This App" button above.</span>
+      </div>
+    </section>
+
     <section class="pulse-grid pulse-grid--overview" aria-label="Overview metrics">
       <article class="pulse-card pulse-metric">
         <span class="pulse-metric__label">Orders Last 24 Hours</span>
